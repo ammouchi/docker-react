@@ -5,3 +5,20 @@ before_install:
   - docker build -t mamado5050/docker-react  -f Dockerfile.dev
 script:
   - docker run mamado5050/docker-react npm run test -- -- coverage
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "docker-react"
+  env: "Docker-env"
+  #storage that we will put in our file ,it's auto created when we create beanstalk,that's the zip file that we will put
+  #in beanstalk
+  bucket_name: "elastibucketname"
+  bucket_path: "docker"
+  #only attempt to deploy when push on master
+  on:
+    branch: master
+  #we already set the as env variables in travis
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"
