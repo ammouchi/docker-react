@@ -1,0 +1,9 @@
+FROM node:alpine
+WORKDIR '/app'
+#copy package.json before the copy of content to prevent to rinstall of dependencies in each change in our code
+COPY 'package.json' .
+#RUN npm config set registry https://registry.npmjs.org/
+#RUN npm i -g npm@6.13.7 
+RUN npm install --ignore-scripts --unsafe-perm
+COPY . ./app
+CMD ["npm","run","start"]
